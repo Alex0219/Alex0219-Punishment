@@ -3,6 +3,9 @@ package de.alex0219.punishment.ban;
 import de.alex0219.punishment.PunishmentBootstrap;
 import de.alex0219.punishment.ban.reason.PunishmentReason;
 import de.alex0219.punishment.user.DBUser;
+import de.alex0219.punishment.uuid.UUIDFetcher;
+import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class BanManager {
 
@@ -40,6 +43,26 @@ public class BanManager {
                 bannedPlayer.getPlayer().disconnect(banMessage);
             }
         }
+
+        BungeeCord.getInstance().getPlayers().forEach(players -> {
+            if (players.hasPermission("punish.notify")) {
+                final String banStartDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banStart"))));
+
+                String banEndDate = "";
+                if (PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd").equalsIgnoreCase("-1")) {
+                    banEndDate = "permanent";
+                } else {
+                    banEndDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd"))));
+                }
+
+                final String banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banExecutor"));
+
+                final String reason = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banReason");
+
+                players.sendMessage(new TextComponent("§bAlex0219.de §7» BAN " + bannedPlayer.getName() + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
+            }
+        });
+
     }
 
     public void banPlayerPermanently(final DBUser executor, final DBUser bannedPlayer, final String punishmentReason) {
@@ -69,6 +92,25 @@ public class BanManager {
                 bannedPlayer.getPlayer().disconnect(banMessage);
             }
         }
+        //send message to all permitted users
+        BungeeCord.getInstance().getPlayers().forEach(players -> {
+            if (players.hasPermission("punish.notify")) {
+                final String banStartDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banStart"))));
+
+                String banEndDate = "";
+                if (PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd").equalsIgnoreCase("-1")) {
+                    banEndDate = "permanent";
+                } else {
+                    banEndDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd"))));
+                }
+
+                final String banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banExecutor"));
+
+                final String reason = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banReason");
+
+                players.sendMessage(new TextComponent("§bAlex0219.de §7» BAN " + bannedPlayer.getName() + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
+            }
+        });
     }
 
     public void mutePlayer(Punishment punishment) {
@@ -106,6 +148,25 @@ public class BanManager {
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             }
         }
+        BungeeCord.getInstance().getPlayers().forEach(players -> {
+            if (players.hasPermission("punish.notify")) {
+                final String banStartDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banStart"))));
+
+                String banEndDate = "";
+                if (PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd").equalsIgnoreCase("-1")) {
+                    banEndDate = "permanent";
+                } else {
+                    banEndDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd"))));
+                }
+
+                final String banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banExecutor"));
+
+                final String reason = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banReason");
+
+                players.sendMessage(new TextComponent("§bAlex0219.de §7» §cMUTE §7-> " + bannedPlayer.getName() + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
+            }
+        });
+
     }
 
     public void mutePlayerPermanently(final DBUser executor, final DBUser bannedPlayer, final String punishmentReason) {
@@ -134,22 +195,56 @@ public class BanManager {
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             }
         }
+
+        BungeeCord.getInstance().getPlayers().forEach(players -> {
+            if (players.hasPermission("punish.notify")) {
+                final String banStartDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banStart"))));
+
+                String banEndDate = "";
+                if (PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd").equalsIgnoreCase("-1")) {
+                    banEndDate = "permanent";
+                } else {
+                    banEndDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banEnd"))));
+                }
+
+                final String banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banExecutor"));
+
+                final String reason = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + bannedPlayer.getUuid(), "banReason");
+
+                players.sendMessage(new TextComponent("§bAlex0219.de §7» §cMUTE §7-> " + bannedPlayer.getName() + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
+            }
+        });
     }
 
     public void unbanPlayer(DBUser dbUser) {
+        final String executor = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "banExecutor");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "banned", "false");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "banReason", "null");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "banStart", "null");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "banEnd", "null");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "banExecutor", "null");
+
+        BungeeCord.getInstance().getPlayers().forEach(players -> {
+            if (players.hasPermission("punish.notify")) {
+                players.sendMessage(new TextComponent("§bAlex0219.de §7» §cUNBAN §7-> " + dbUser.getName() + " §7von §c" + executor));
+            }
+        });
+
     }
 
     public void unmutePlayer(final DBUser dbUser) {
+        final String executor = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "muteExecutor");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "muted", "false");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "muteReason", "null");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "muteStart", "null");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "muteEnd", "null");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "muteExecutor", "null");
+
+        BungeeCord.getInstance().getPlayers().forEach(players -> {
+            if (players.hasPermission("punish.notify")) {
+                players.sendMessage(new TextComponent("§bAlex0219.de §7» §cUNMUTE §7-> " + dbUser.getName() + " §7von §c" + executor));
+            }
+        });
     }
 
     public boolean isBanned(DBUser dbUser) {

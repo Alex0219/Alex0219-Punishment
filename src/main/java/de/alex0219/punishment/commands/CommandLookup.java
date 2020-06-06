@@ -27,7 +27,7 @@ public class CommandLookup extends Command {
                 final DBUser lookupPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
 
                 if (!lookupPlayer.userExists()) {
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cEs kann kein Lookup für einen §cnicht-existenten Spieler ausgeführt werden."));
+                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cEs kann kein Lookup für einen §cnicht-existenten §c ausgeführt werden."));
                     return;
                 }
                 if (PunishmentBootstrap.getInstance().getBanManager().isBanned(lookupPlayer)) {
