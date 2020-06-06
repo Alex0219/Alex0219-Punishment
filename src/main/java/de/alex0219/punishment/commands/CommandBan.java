@@ -51,7 +51,7 @@ public class CommandBan extends Command {
                         return;
                     }
                     PunishmentBootstrap.getInstance().getBanManager().banPlayer(new Punishment(executor, bannedPlayer, punishmentReason));
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Der Spieler §a" + bannedPlayer.getName() + " §7wurde erfolgreich gebannt."));
+                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Der Spieler §a" + bannedPlayer.getName() + " §7wurde §7erfolgreich gebannt."));
                 } else {
                     commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cDu darfst diesen Spieler nicht bannen!"));
                     return;

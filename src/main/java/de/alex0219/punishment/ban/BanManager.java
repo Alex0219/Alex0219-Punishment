@@ -42,6 +42,35 @@ public class BanManager {
         }
     }
 
+    public void banPlayerPermanently(final DBUser executor, final DBUser bannedPlayer, final String punishmentReason) {
+
+        final long punishmentTime = System.currentTimeMillis();
+
+
+        long punishmentEndTime = -1;
+
+
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "banned", "true");
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "banReason", punishmentReason);
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "banStart", String.valueOf(punishmentTime));
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "banEnd", String.valueOf(punishmentEndTime));
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "banExecutor", String.valueOf(executor.getUuid()));
+        addBanLookupEntry(bannedPlayer, punishmentReason, String.valueOf(punishmentTime), String.valueOf(punishmentEndTime), executor.getUuid());
+        if (bannedPlayer.getPlayer() != null) {
+            //MM/dd/yyyy HH:mm:ss
+
+            if (punishmentEndTime == -1) {
+                String banMessage = "§bAlex0219.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Bann läuft §4niemals §7aus.";
+                bannedPlayer.getPlayer().disconnect(banMessage);
+            } else {
+                final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
+                final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
+                String banMessage = "§bAlex0219.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
+                bannedPlayer.getPlayer().disconnect(banMessage);
+            }
+        }
+    }
+
     public void mutePlayer(Punishment punishment) {
         final long punishmentTime = System.currentTimeMillis();
 
@@ -74,6 +103,34 @@ public class BanManager {
                 final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
                 String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
+                bannedPlayer.getPlayer().sendMessage(banMessage);
+            }
+        }
+    }
+
+    public void mutePlayerPermanently(final DBUser executor, final DBUser bannedPlayer, final String punishmentReason) {
+        final long punishmentTime = System.currentTimeMillis();
+
+
+        long punishmentEndTime = -1;
+
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "muted", "true");
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "muteReason", punishmentReason);
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "muteStart", String.valueOf(punishmentTime));
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "muteEnd", String.valueOf(punishmentEndTime));
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + bannedPlayer.getUuid(), "muteExecutor", String.valueOf(executor.getUuid()));
+        addMuteLookupEntry(bannedPlayer, punishmentReason, String.valueOf(punishmentTime), String.valueOf(punishmentEndTime), executor.getUuid());
+        if (bannedPlayer.getPlayer() != null) {
+            //MM/dd/yyyy HH:mm:ss
+
+
+            if (punishmentEndTime == -1) {
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Mute läuft am §4niemals §7aus.";
+                bannedPlayer.getPlayer().sendMessage(banMessage);
+            } else {
+                final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
+                final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             }
         }

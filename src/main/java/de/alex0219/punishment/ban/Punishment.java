@@ -15,6 +15,7 @@ public class Punishment {
         this.punishmentReason = punishmentReason;
     }
 
+
     public DBUser getExecutor() {
         return executor;
     }

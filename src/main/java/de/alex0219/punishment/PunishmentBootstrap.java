@@ -42,6 +42,8 @@ public class PunishmentBootstrap extends Plugin {
         if (!getJedis().exists("punishmentHistoryCount")) {
             getJedis().set("punishmentHistoryCount", "1");
         }
+        BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandPBan("pban"));
+        BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandPMute("pmute"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandBan("ban"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandMute("mute"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandUnban("unban"));
@@ -55,22 +57,28 @@ public class PunishmentBootstrap extends Plugin {
                 int unmutedPlayers = 0;
                 for (final String entry : PunishmentBootstrap.getInstance().getJedis().keys("uuid:*")) {
                     if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "banned").equalsIgnoreCase("true")) {
-                        final long banEndTime = Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banEnd"));
-                        if (System.currentTimeMillis() >= banEndTime) {
-                            //auto unban player
-                            final String bannedUUID = entry.replace("uuid:", "");
-                            final DBUser dbUser = new DBUser(bannedUUID, UUIDFetcher.getName(bannedUUID));
-                            PunishmentBootstrap.getInstance().getBanManager().unbanPlayer(dbUser);
-                            unbannedPlayers++;
+                        if (!PunishmentBootstrap.getInstance().getJedis().hget(entry, "banEnd").equalsIgnoreCase("-1")) {
+                            final long banEndTime = Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banEnd"));
+                            if (System.currentTimeMillis() >= banEndTime) {
+                                //auto unban player
+                                final String bannedUUID = entry.replace("uuid:", "");
+                                final DBUser dbUser = new DBUser(bannedUUID, UUIDFetcher.getName(bannedUUID));
+                                PunishmentBootstrap.getInstance().getBanManager().unbanPlayer(dbUser);
+                                unbannedPlayers++;
+                            }
                         }
+
                     } else if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "muted").equalsIgnoreCase("true")) {
-                        final long muteEndTime = Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget(entry, "muteEnd"));
-                        if (System.currentTimeMillis() >= muteEndTime) {
-                            //auto unmute player
-                            final String mutedUUID = entry.replace("uuid:", "");
-                            final DBUser dbUser = new DBUser(mutedUUID, UUIDFetcher.getName(mutedUUID));
-                            PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(dbUser);
-                            unmutedPlayers++;
+
+                        if (!PunishmentBootstrap.getInstance().getJedis().hget(entry, "muteEnd").equalsIgnoreCase("-1")) {
+                            final long muteEndTime = Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget(entry, "muteEnd"));
+                            if (System.currentTimeMillis() >= muteEndTime) {
+                                //auto unmute player
+                                final String mutedUUID = entry.replace("uuid:", "");
+                                final DBUser dbUser = new DBUser(mutedUUID, UUIDFetcher.getName(mutedUUID));
+                                PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(dbUser);
+                                unmutedPlayers++;
+                            }
                         }
                     }
                 }

@@ -1,0 +1,6 @@
+name: Punishment
+version: 1.0
+main: de.alex0219.punishment.PunishmentBootstrap
+authors:
+  - Alexander Fiedler
+
