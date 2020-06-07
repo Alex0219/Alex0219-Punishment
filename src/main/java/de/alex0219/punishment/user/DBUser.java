@@ -81,6 +81,7 @@ public class DBUser {
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "registertimestamp", new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(new Date()));
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "logins", "1");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "rank", "spieler");
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "ontime", "0");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "muted", "false");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "banned", "false");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "hasworld", "false");

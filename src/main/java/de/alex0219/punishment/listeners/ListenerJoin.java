@@ -3,8 +3,10 @@ package de.alex0219.punishment.listeners;
 import de.alex0219.punishment.PunishmentBootstrap;
 import de.alex0219.punishment.user.DBUser;
 import de.alex0219.punishment.uuid.UUIDFetcher;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.event.LoginEvent;
+import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -29,6 +31,7 @@ public class ListenerJoin implements Listener {
             System.out.println("Backend -> Player Join took " + millis + " milliseconds");
         }
 
+
         if (PunishmentBootstrap.getInstance().getBanManager().isBanned(dbUser)) {
             final long punishmentEndTime = Long.parseLong(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "banEnd"));
             final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
@@ -50,5 +53,10 @@ public class ListenerJoin implements Listener {
             }
 
         }
+    }
+
+    @EventHandler
+    public void onServerSwitch(final ServerConnectEvent event) {
+        event.getPlayer().setTabHeader(new TextComponent("§7» §bAlex0219.de §7« \n §7Dein Classic Minecraft Survival Server"), new TextComponent("§7Du möchtest uns unterstützen? §e/vote"));
     }
 }
