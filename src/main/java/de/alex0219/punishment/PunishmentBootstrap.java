@@ -42,6 +42,7 @@ public class PunishmentBootstrap extends Plugin {
         if (!getJedis().exists("punishmentHistoryCount")) {
             getJedis().set("punishmentHistoryCount", "1");
         }
+        BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandKick("kick"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandPBan("pban"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandPMute("pmute"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandBan("ban"));
@@ -49,6 +50,7 @@ public class PunishmentBootstrap extends Plugin {
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandUnban("unban"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandUnmute("unmute"));
         BungeeCord.getInstance().getPluginManager().registerCommand(this, new CommandLookup("lookup"));
+
 
         BungeeCord.getInstance().getScheduler().schedule(this, new Runnable() {
             @Override
@@ -91,6 +93,7 @@ public class PunishmentBootstrap extends Plugin {
     public void onDisable() {
         jedis.disconnect();
     }
+
 
     public Jedis getJedis() {
         return jedis;

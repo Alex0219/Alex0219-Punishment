@@ -5,9 +5,6 @@ import de.alex0219.punishment.ban.ranks.RankEnum;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * User: Alexander<br/>
  * Date: 04.02.2018<br/>
@@ -78,13 +75,17 @@ public class DBUser {
     public void createUser() {
 
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "name", getName());
-        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "registertimestamp", new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(new Date()));
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "firstLogin", String.valueOf(System.currentTimeMillis()));
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "lastlogin", String.valueOf(System.currentTimeMillis()));
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "logins", "1");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "rank", "spieler");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "ontime", "0");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "muted", "false");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "banned", "false");
         PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "hasworld", "false");
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "votes", "0");
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "coins", "0");
+
         System.out.println("Backend -> Created user with uuid:" + uuid);
 
     }
@@ -98,70 +99,16 @@ public class DBUser {
         return player;
     }
 
-    /**
-     * Updates the online time of a user by 1L(1 minute)
-     *
-     * @param time
-     */
-    public void updateOntime(long time) {
-        final long currentOntime = Long.parseLong(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + getUuid(), "ontime"));
-        final long ontimeNow = currentOntime + 1L;
-        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "ontime", String.valueOf(ontimeNow));
-    }
 
     public RankEnum getRank() {
         return RankEnum.getRankByName(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + getUuid(), "rank"));
     }
 
-    public Integer getPunishmentLevel() {
-        return Integer.valueOf(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + getUuid(), "punishmentLevel"));
+    public void updateLoginCount() {
+        int currentLogins = Integer.parseInt(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + getUuid(), "logins"));
+        final int loginsNow = currentLogins + 1;
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "logins", String.valueOf(loginsNow));
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + getUuid(), "lastlogin", String.valueOf(System.currentTimeMillis()));
     }
-
-    public String getOnlinetime() {
-
-        long seconds = Long.parseLong(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + getUuid(), "ontime"));
-        long minutes = 0L;
-        long hours = 0L;
-        long days = 0L;
-        long weeks = 0L;
-        while (seconds > 60L) {
-            seconds -= 60L;
-            ++minutes;
-        }
-        while (minutes > 60L) {
-            minutes -= 60L;
-            ++hours;
-        }
-        while (hours > 24L) {
-            hours -= 24L;
-            ++days;
-        }
-        while (days > 7L) {
-            days -= 7L;
-            ++weeks;
-        }
-        while (weeks > 7L) {
-            days -= 7L;
-        }
-        if (weeks != 0L) {
-            return "§c" + weeks + " §7Woche(n) §c" + "§c" + days + " §7Tag(e) §c" + hours + " §7Stunde(n) §c" + minutes + " §7Minute(n) §c" + seconds + " §7Sekunde(n)";
-        }
-        if (days != 0L) {
-            return "§c" + days + " §7Tag(e) §c" + hours + " §7Stunde(n) §c" + minutes + " §7Minute(n) §c" + seconds + " §7Sekunde(n)";
-        }
-        if (hours != 0L) {
-            return "§c" + hours + " §7Stunde(n) §c" + minutes + " §7Minute(n) §c" + seconds + " §7Sekunde(n)";
-        }
-        if (minutes != 0L) {
-            return "§c" + minutes + " §7Minute(n) §c" + seconds + " §7Sekunde(n)";
-        }
-        if (seconds != 0L) {
-            return "§c" + seconds + " §7Sekunde(n)";
-        }
-        return "§c" + weeks + " §7Woche(n) §c" + "§c" + days + " §7Tag(e) §c" + hours + " §7Stunde(n) §c" + minutes + " §7Minute(n) §6" + seconds + " §7Sekunde(n)";
-
-    }
-
-
 }
 

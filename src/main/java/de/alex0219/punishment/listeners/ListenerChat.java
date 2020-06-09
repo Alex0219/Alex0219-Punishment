@@ -17,30 +17,33 @@ import net.md_5.bungee.event.EventHandler;
 public class ListenerChat implements Listener {
 
     @EventHandler
-    public void onPlayerLogin(final ChatEvent loginEvent) {
+    public void onPlayerLogin(final ChatEvent chatEvent) {
 
-        ProxiedPlayer muted = (ProxiedPlayer) loginEvent.getSender();
+        ProxiedPlayer muted = (ProxiedPlayer) chatEvent.getSender();
         final DBUser dbUser = new DBUser(UUIDFetcher.getUUID(muted.getName()), muted.getName());
 
-        if (PunishmentBootstrap.getInstance().getBanManager().isMuted(dbUser)) {
-            final long punishmentEndTime = Long.parseLong(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "muteEnd"));
-            final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
-            final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
-            final String reason = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "muteReason");
+        if (!chatEvent.getMessage().startsWith("/")) {
+            if (PunishmentBootstrap.getInstance().getBanManager().isMuted(dbUser)) {
+                final long punishmentEndTime = Long.parseLong(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "muteEnd"));
+                final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
+                final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
+                final String reason = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "muteReason");
 
-            if (System.currentTimeMillis() >= punishmentEndTime) {
-                //Unban player
-                PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(dbUser);
-                loginEvent.setCancelled(false);
-            }
-            loginEvent.setCancelled(true);
-            if (punishmentEndTime == -1) {
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §4niemals §7aus.";
-                dbUser.getPlayer().sendMessage(banMessage);
-            } else {
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
-                dbUser.getPlayer().sendMessage(banMessage);
+                if (System.currentTimeMillis() >= punishmentEndTime) {
+                    //Unban player
+                    PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(dbUser);
+                    chatEvent.setCancelled(false);
+                }
+                chatEvent.setCancelled(true);
+                if (punishmentEndTime == -1) {
+                    String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §4niemals §7aus.";
+                    dbUser.getPlayer().sendMessage(banMessage);
+                } else {
+                    String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
+                    dbUser.getPlayer().sendMessage(banMessage);
+                }
             }
         }
+
     }
 }

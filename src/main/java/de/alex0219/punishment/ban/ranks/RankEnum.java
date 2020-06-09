@@ -9,7 +9,7 @@ public enum RankEnum {
     SUPERADMIN("Superadmin", 4, 3),
     ADMIN("Admin", 3, 2),
     MODERATOR("mod", 2, 1),
-    PREMIUM("Premium", 1, 1),
+    STAMMSPIELER("Stammspieler", 1, 1),
     SPIELER("Spieler", 0, 0);
 
     String name;

@@ -21,13 +21,13 @@ public class CommandLookup extends Command {
         if (commandSender.hasPermission("punish.lookup")) {
             if (args.length == 1) {
                 if (!(commandSender instanceof ProxiedPlayer)) {
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                     return;
                 }
                 final DBUser lookupPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
 
                 if (!lookupPlayer.userExists()) {
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cEs kann kein Lookup für einen §cnicht-existenten §c ausgeführt werden."));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Lookup für einen §cnicht-existenten §c ausgeführt werden."));
                     return;
                 }
                 if (PunishmentBootstrap.getInstance().getBanManager().isBanned(lookupPlayer)) {
@@ -35,9 +35,9 @@ public class CommandLookup extends Command {
                 }
 
 
-                commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Gebannt: " + PunishmentBootstrap.getInstance().getBanManager().isBanned(lookupPlayer)));
-                commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Gemutet: " + PunishmentBootstrap.getInstance().getBanManager().isMuted(lookupPlayer)));
-                commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Bans: "));
+                commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Gebannt: " + PunishmentBootstrap.getInstance().getBanManager().isBanned(lookupPlayer)));
+                commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Gemutet: " + PunishmentBootstrap.getInstance().getBanManager().isMuted(lookupPlayer)));
+                commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Bans: "));
                 for (final String entry : PunishmentBootstrap.getInstance().getJedis().keys("punishlookup:*")) {
                     if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "punishType").equalsIgnoreCase("BAN")) {
                         if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "bannedPlayer").equalsIgnoreCase(UUIDFetcher.getUUID(lookupPlayer.getName()))) {
@@ -55,11 +55,11 @@ public class CommandLookup extends Command {
 
                             final String reason = PunishmentBootstrap.getInstance().getJedis().hget(entry, "banReason");
 
-                            commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» " + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
+                            commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» " + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
                         }
                     }
                 }
-                commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Mutes: "));
+                commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Mutes: "));
                 for (final String entry : PunishmentBootstrap.getInstance().getJedis().keys("punishlookup:*")) {
                     if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "punishType").equalsIgnoreCase("MUTE")) {
                         if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "mutedPlayer").equalsIgnoreCase(UUIDFetcher.getUUID(lookupPlayer.getName()))) {
@@ -78,14 +78,14 @@ public class CommandLookup extends Command {
 
                             final String reason = PunishmentBootstrap.getInstance().getJedis().hget(entry, "banReason");
 
-                            commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» " + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
+                            commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» " + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
                         }
 
                     }
                 }
 
             } else {
-                commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Bitte verwende /lookup <Spieler>"));
+                commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Bitte verwende /lookup <Spieler>"));
             }
         } else {
             commandSender.sendMessage(new TextComponent("§cYou do not have permission to execute this command!"));

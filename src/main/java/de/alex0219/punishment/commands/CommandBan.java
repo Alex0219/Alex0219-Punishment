@@ -23,14 +23,14 @@ public class CommandBan extends Command {
         if (commandSender.hasPermission("punish.ban")) {
             if (args.length == 2) {
                 if (!(commandSender instanceof ProxiedPlayer)) {
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                     return;
                 }
                 final DBUser executor = new DBUser(UUIDFetcher.getUUID(commandSender.getName()), commandSender.getName());
                 final DBUser bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
 
                 if (!bannedPlayer.userExists()) {
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cEs kann kein Ban für einen §cnicht-existenten §cSpieler erstellt werden."));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Ban für einen §cnicht-existenten §cSpieler erstellt werden."));
                     return;
                 }
                 final String reason = args[1];
@@ -39,7 +39,7 @@ public class CommandBan extends Command {
                 if (punishmentReason == null) {
                     String availableBanReasons = PunishmentReason.getAllBanReasons().toString();
                     availableBanReasons = availableBanReasons.replace("[", "").replace("]", "");
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cBitte gebe einen Grund aus dieser Liste an: §a" + availableBanReasons));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cBitte gebe einen Grund aus dieser Liste an: §a" + availableBanReasons));
                     return;
                 }
                 //we are able to punish the player
@@ -47,17 +47,17 @@ public class CommandBan extends Command {
                 //check if player is permitted to ban the target player
                 if (PunishmentBootstrap.getInstance().getRankManager().isPermittedToBan(executor, bannedPlayer)) {
                     if (PunishmentBootstrap.getInstance().getBanManager().isBanned(bannedPlayer)) {
-                        commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cDieser Spieler ist bereits gebannt!"));
+                        commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Spieler ist bereits gebannt!"));
                         return;
                     }
                     PunishmentBootstrap.getInstance().getBanManager().banPlayer(new Punishment(executor, bannedPlayer, punishmentReason));
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Der Spieler §a" + bannedPlayer.getName() + " §7wurde §7erfolgreich gebannt."));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Der Spieler §a" + bannedPlayer.getName() + " §7wurde §7erfolgreich gebannt."));
                 } else {
-                    commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» §cDu darfst diesen Spieler nicht bannen!"));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDu darfst diesen Spieler nicht bannen!"));
                     return;
                 }
             } else {
-                commandSender.sendMessage(new TextComponent("§bAlex0219.de §7» Bitte verwende /ban <Spieler> <Grund>"));
+                commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Bitte verwende /ban <Spieler> <Grund>"));
             }
         } else {
             commandSender.sendMessage(new TextComponent("§cYou do not have permission to execute this command!"));

@@ -14,23 +14,21 @@ public class ListenerJoin implements Listener {
 
     @EventHandler
     public void onPlayerLogin(final LoginEvent loginEvent) {
+        long millisNow = System.currentTimeMillis();
         final PendingConnection pendingConnection = loginEvent.getConnection();
         final DBUser dbUser = new DBUser(UUIDFetcher.getUUID(pendingConnection.getName()), pendingConnection.getName());
 
-        long millisNow = System.currentTimeMillis();
 
         if (!dbUser.userExists()) {
             dbUser.createUser();
-            String millis = String.valueOf(System.currentTimeMillis() - millisNow);
-            System.out.println("Backend -> Player Join took " + millis + " milliseconds");
         } else {
             System.out.println("Backend -> User already exists!");
             //update player name in case player has changed his name
             PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "name", dbUser.getName());
-            String millis = String.valueOf(System.currentTimeMillis() - millisNow);
-            System.out.println("Backend -> Player Join took " + millis + " milliseconds");
+            dbUser.updateLoginCount();
         }
 
+        PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "lastip", pendingConnection.getAddress().getAddress().toString());
 
         if (PunishmentBootstrap.getInstance().getBanManager().isBanned(dbUser)) {
             final long punishmentEndTime = Long.parseLong(PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "banEnd"));
@@ -45,18 +43,21 @@ public class ListenerJoin implements Listener {
             }
             loginEvent.setCancelled(true);
             if (punishmentEndTime == -1) {
-                String banMessage = "§bAlex0219.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft §4niemals §7aus.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft §4niemals §7aus.";
                 loginEvent.setCancelReason(banMessage);
             } else {
-                String banMessage = "§bAlex0219.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
                 loginEvent.setCancelReason(banMessage);
             }
 
         }
+
+        String millis = String.valueOf(System.currentTimeMillis() - millisNow);
+        System.out.println("Backend -> Player Join took " + millis + " milliseconds");
     }
 
     @EventHandler
     public void onServerSwitch(final ServerConnectEvent event) {
-        event.getPlayer().setTabHeader(new TextComponent("§7» §bAlex0219.de §7« \n §7Dein Classic Minecraft Survival Server"), new TextComponent("§7Du möchtest uns unterstützen? §e/vote"));
+        event.getPlayer().setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server"), new TextComponent("§7Du möchtest uns unterstützen? §e/vote"));
     }
 }
