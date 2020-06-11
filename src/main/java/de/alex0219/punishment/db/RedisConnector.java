@@ -46,6 +46,8 @@ public class RedisConnector {
     public Jedis getJedis() {
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis;
+        } finally {
+            jedisPool.close();
         }
     }
 
