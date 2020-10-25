@@ -2,7 +2,6 @@ package de.alex0219.punishment.listeners;
 
 import de.alex0219.punishment.PunishmentBootstrap;
 import de.alex0219.punishment.user.DBUser;
-import de.alex0219.punishment.uuid.UUIDFetcher;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -20,7 +19,7 @@ public class ListenerChat implements Listener {
     public void onPlayerLogin(final ChatEvent chatEvent) {
 
         ProxiedPlayer muted = (ProxiedPlayer) chatEvent.getSender();
-        final DBUser dbUser = new DBUser(UUIDFetcher.getUUID(muted.getName()), muted.getName());
+        final DBUser dbUser = PunishmentBootstrap.getInstance().getRankManager().getDBUser(muted.getName());
 
         if (!chatEvent.getMessage().startsWith("/")) {
             if (PunishmentBootstrap.getInstance().getBanManager().isMuted(dbUser)) {
@@ -29,17 +28,17 @@ public class ListenerChat implements Listener {
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
                 final String reason = PunishmentBootstrap.getInstance().getJedis().hget("uuid:" + dbUser.getUuid(), "muteReason");
 
-                if (System.currentTimeMillis() >= punishmentEndTime) {
+                if (System.currentTimeMillis() >= punishmentEndTime && punishmentEndTime != -1) {
                     //Unban player
-                    PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(dbUser);
+                    PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(dbUser,"Auto-Unmute");
                     chatEvent.setCancelled(false);
                 }
                 chatEvent.setCancelled(true);
                 if (punishmentEndTime == -1) {
-                    String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §4niemals §7aus.";
+                    String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §4niemals §7aus. \n§7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
                     dbUser.getPlayer().sendMessage(banMessage);
                 } else {
-                    String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus.";
+                    String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + reason + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n§7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
                     dbUser.getPlayer().sendMessage(banMessage);
                 }
             }

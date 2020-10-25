@@ -27,8 +27,14 @@ public class CommandKick extends Command {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                     return;
                 }
-                final DBUser executor = new DBUser(UUIDFetcher.getUUID(commandSender.getName()), commandSender.getName());
-                final DBUser bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                final DBUser executor = PunishmentBootstrap.getInstance().getRankManager().getDBUser(commandSender.getName());
+                DBUser bannedPlayer;
+
+                if(BungeeCord.getInstance().getPlayer(args[0]) !=null) {
+                    bannedPlayer = PunishmentBootstrap.getInstance().getRankManager().getDBUser(args[0]);
+                } else {
+                    bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                }
 
                 if (!bannedPlayer.userExists()) {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDer angegebene Spieler wurde §cnicht gefunden."));

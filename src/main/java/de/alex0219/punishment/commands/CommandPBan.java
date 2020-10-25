@@ -3,6 +3,7 @@ package de.alex0219.punishment.commands;
 import de.alex0219.punishment.PunishmentBootstrap;
 import de.alex0219.punishment.user.DBUser;
 import de.alex0219.punishment.uuid.UUIDFetcher;
+import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -27,8 +28,14 @@ public class CommandPBan extends Command {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                     return;
                 }
-                final DBUser executor = new DBUser(UUIDFetcher.getUUID(commandSender.getName()), commandSender.getName());
-                final DBUser bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                final DBUser executor = PunishmentBootstrap.getInstance().getRankManager().getDBUser(commandSender.getName());
+                 DBUser bannedPlayer;
+
+                if(BungeeCord.getInstance().getPlayer(args[0]) !=null) {
+                    bannedPlayer = PunishmentBootstrap.getInstance().getRankManager().getDBUser(args[0]);
+                } else {
+                    bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                }
 
                 if (!bannedPlayer.userExists()) {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Ban für einen §cnicht-existenten §cSpieler erstellt werden."));

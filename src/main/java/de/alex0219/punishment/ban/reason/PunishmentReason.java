@@ -12,10 +12,14 @@ import java.util.ArrayList;
 public enum PunishmentReason {
 
     HACKING("Hacking", 604800000L, PunishmentDuration.TEMPORARILY, PunishmentType.BAN),
+    NAMENSGEBUNG("Namensgebung",	2592000000L,PunishmentDuration.TEMPORARILY,PunishmentType.BAN),
     BELEIDIGUNG("Beleidigung", 21600000L, PunishmentDuration.TEMPORARILY, PunishmentType.CHATBAN),
+    BETTELN("Betteln", 3600000L, PunishmentDuration.TEMPORARILY, PunishmentType.CHATBAN),
     SPAM("Spam", 600000L, PunishmentDuration.TEMPORARILY, PunishmentType.CHATBAN),
     WERBUNG("Werbung", -1, PunishmentDuration.PERMANENTLY, PunishmentType.BAN),
     GRIEFING("Griefing", 604800000L, PunishmentDuration.TEMPORARILY, PunishmentType.BAN),
+    DUPING("Duping", -1, PunishmentDuration.PERMANENTLY, PunishmentType.BAN),
+    RECHTSEXTREM("Rechtsextremistische Äußerungen",-1,PunishmentDuration.PERMANENTLY,PunishmentType.BAN),
     BUGUSING("Bugusing", -1, PunishmentDuration.PERMANENTLY, PunishmentType.BAN);
 
     String name;
@@ -58,6 +62,7 @@ public enum PunishmentReason {
         }
         return tempReasons;
     }
+
 
     public String getName() {
         return name;

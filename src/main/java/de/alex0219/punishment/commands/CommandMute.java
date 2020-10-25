@@ -3,6 +3,7 @@ package de.alex0219.punishment.commands;
 import de.alex0219.punishment.PunishmentBootstrap;
 import de.alex0219.punishment.ban.Punishment;
 import de.alex0219.punishment.ban.reason.PunishmentReason;
+import de.alex0219.punishment.ban.types.PunishmentType;
 import de.alex0219.punishment.user.DBUser;
 import de.alex0219.punishment.uuid.UUIDFetcher;
 import net.md_5.bungee.api.CommandSender;
@@ -38,6 +39,12 @@ public class CommandMute extends Command {
 
                 if (punishmentReason == null) {
                     String availableBanReasons = PunishmentReason.getAllMuteReasons().toString();
+                    availableBanReasons = availableBanReasons.replace("[", "").replace("]", "");
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cBitte gebe einen Grund aus dieser Liste an: §a" + availableBanReasons));
+                    return;
+                }
+                if(punishmentReason.getPunishmentType() != PunishmentType.CHATBAN) {
+                    String availableBanReasons = PunishmentReason.getAllBanReasons().toString();
                     availableBanReasons = availableBanReasons.replace("[", "").replace("]", "");
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cBitte gebe einen Grund aus dieser Liste an: §a" + availableBanReasons));
                     return;

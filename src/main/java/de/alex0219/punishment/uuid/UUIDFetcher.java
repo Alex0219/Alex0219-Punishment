@@ -56,7 +56,7 @@ public class UUIDFetcher {
 
     public static String getUUID(String username) {
         try {
-            URL url = new URL("https://api.minetools.eu/uuid/" + username);
+            URL url = new URL("https://control.mc-survival.de/uuid?username=" + username);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
             String line = reader.readLine();
@@ -64,13 +64,10 @@ public class UUIDFetcher {
             final JSONParser parser = new JSONParser();
 
             try {
-
-
                 final JSONObject json = (JSONObject) parser.parse(new InputStreamReader(url.openStream()));
 
-                if (json.get("id") != null) {
-                    String uuid = insertDashUUID(json.get("id").toString());
-
+                if (json.get("uuid") != null) {
+                    String uuid = json.get("uuid").toString();
                     return uuid;
                 }
 
@@ -82,6 +79,7 @@ public class UUIDFetcher {
 
         } catch (IOException e) {
         }
+
         return "";
 
 
@@ -89,7 +87,7 @@ public class UUIDFetcher {
 
     public static String getName(String uuid) {
         try {
-            URL url = new URL("https://api.minetools.eu/uuid/" + uuid);
+            URL url = new URL("https://control.mc-survival.de/name?uuid=" + uuid);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
             String line = reader.readLine();
@@ -99,9 +97,8 @@ public class UUIDFetcher {
             try {
                 final JSONObject json = (JSONObject) parser.parse(new InputStreamReader(url.openStream()));
 
-                if (json.get("name") != null) {
-                    String username = json.get("name").toString();
-
+                if (json.get("username") != null) {
+                    String username = json.get("username").toString();
                     return username;
                 }
 
@@ -114,22 +111,6 @@ public class UUIDFetcher {
         } catch (IOException e) {
         }
         return "";
-    }
-
-    public static String insertDashUUID(String uuid) {
-        StringBuffer sb = new StringBuffer(uuid);
-        sb.insert(8, "-");
-
-        sb = new StringBuffer(sb.toString());
-        sb.insert(13, "-");
-
-        sb = new StringBuffer(sb.toString());
-        sb.insert(18, "-");
-
-        sb = new StringBuffer(sb.toString());
-        sb.insert(23, "-");
-
-        return sb.toString();
     }
 }
 

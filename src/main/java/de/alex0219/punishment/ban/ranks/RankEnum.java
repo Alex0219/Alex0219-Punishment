@@ -1,16 +1,22 @@
 package de.alex0219.punishment.ban.ranks;
 
+import de.alex0219.punishment.ban.reason.PunishmentReason;
+import de.alex0219.punishment.ban.types.PunishmentType;
+
+import java.util.ArrayList;
+
 /**
  * Created by Alexander on 04.06.2020 20:57
  * © 2020 Alexander Fiedler
  */
 public enum RankEnum {
 
-    SUPERADMIN("Superadmin", 4, 3),
-    ADMIN("Admin", 3, 2),
-    MODERATOR("mod", 2, 1),
+    SUPERADMIN("Superadmin", 5, 4),
+    ADMIN("Admin", 4, 3),
+    MOD("mod", 3, 2),
+    SPENDER("Spender",2,1),
     STAMMSPIELER("Stammspieler", 1, 1),
-    SPIELER("Spieler", 0, 0);
+    SPIELER("Spieler", 0, 1);
 
     String name;
     int id;
@@ -29,6 +35,14 @@ public enum RankEnum {
             }
         }
         return null;
+    }
+
+    public static ArrayList<RankEnum> getAllRanks() {
+        final ArrayList<RankEnum> tempRanks = new ArrayList<>();
+        for (RankEnum rank : values()) {
+            tempRanks.add(rank);
+        }
+        return tempRanks;
     }
 
     public String getName() {

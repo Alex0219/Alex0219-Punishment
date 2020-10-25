@@ -3,6 +3,7 @@ package de.alex0219.punishment.commands;
 import de.alex0219.punishment.PunishmentBootstrap;
 import de.alex0219.punishment.user.DBUser;
 import de.alex0219.punishment.uuid.UUIDFetcher;
+import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -24,8 +25,15 @@ public class CommandUnmute extends Command {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                     return;
                 }
-                final DBUser executor = new DBUser(UUIDFetcher.getUUID(commandSender.getName()), commandSender.getName());
-                final DBUser bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+
+                final DBUser executor = PunishmentBootstrap.getInstance().getRankManager().getDBUser(commandSender.getName());
+                DBUser bannedPlayer;
+                if(BungeeCord.getInstance().getPlayer(args[0]) !=null) {
+                    bannedPlayer = PunishmentBootstrap.getInstance().getRankManager().getDBUser(args[0]);
+                } else {
+                    bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                }
+
 
                 if (!bannedPlayer.userExists()) {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Unmute für einen §cnicht-existenten Spieler erstellt werden."));
@@ -36,7 +44,7 @@ public class CommandUnmute extends Command {
                         commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Spieler ist nicht gemutet."));
                         return;
                     }
-                    PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(bannedPlayer);
+                    PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(bannedPlayer,commandSender.getName());
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Der Spieler §a" + bannedPlayer.getName() + " §7wurde erfolgreich entmutet."));
                 } else {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDu darfst diesen Spieler nicht entmuten!"));

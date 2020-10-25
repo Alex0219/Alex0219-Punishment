@@ -69,7 +69,16 @@ public class DBUser {
     }
 
     public boolean userExists() {
-        return PunishmentBootstrap.getInstance().getJedis().exists("uuid:" + getUuid());
+        try {
+            return PunishmentBootstrap.getInstance().getJedis().exists("uuid:" + getUuid());
+        } catch (java.lang.ClassCastException exception) {
+            PunishmentBootstrap.getInstance().getRedisConnector().connectToRedis("127.0.0.1", 6379);
+            PunishmentBootstrap.getInstance().jedis = PunishmentBootstrap.getInstance().getRedisConnector().getJedis();
+        } catch (Exception exception) {
+            PunishmentBootstrap.getInstance().getRedisConnector().connectToRedis("127.0.0.1", 6379);
+            PunishmentBootstrap.getInstance().jedis = PunishmentBootstrap.getInstance().getRedisConnector().getJedis();
+        }
+        return true;
     }
 
     public void createUser() {

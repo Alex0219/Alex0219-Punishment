@@ -24,16 +24,16 @@ public class CommandLookup extends Command {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                     return;
                 }
-                final DBUser lookupPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                DBUser lookupPlayer = PunishmentBootstrap.getInstance().getRankManager().getDBUser(args[0]);
+
+                if(lookupPlayer == null) {
+                   lookupPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                }
 
                 if (!lookupPlayer.userExists()) {
-                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Lookup für einen §cnicht-existenten §c ausgeführt werden."));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Lookup für einen §cnicht-existenten §cSpieler ausgeführt werden."));
                     return;
                 }
-                if (PunishmentBootstrap.getInstance().getBanManager().isBanned(lookupPlayer)) {
-
-                }
-
 
                 commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Gebannt: " + PunishmentBootstrap.getInstance().getBanManager().isBanned(lookupPlayer)));
                 commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Gemutet: " + PunishmentBootstrap.getInstance().getBanManager().isMuted(lookupPlayer)));
@@ -51,7 +51,12 @@ public class CommandLookup extends Command {
                             } else {
                                 banEndDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banEnd"))));
                             }
-                            final String banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget(entry, "Executor"));
+                            final String banExecutor;
+                            if(PunishmentBootstrap.getInstance().getJedis().hget(entry, "Executor").startsWith("Webinterface")) {
+                                banExecutor = PunishmentBootstrap.getInstance().getJedis().hget(entry, "Executor");
+                            } else {
+                                banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget(entry, "Executor"));
+                            }
 
                             final String reason = PunishmentBootstrap.getInstance().getJedis().hget(entry, "banReason");
 
@@ -63,7 +68,6 @@ public class CommandLookup extends Command {
                 for (final String entry : PunishmentBootstrap.getInstance().getJedis().keys("punishlookup:*")) {
                     if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "punishType").equalsIgnoreCase("MUTE")) {
                         if (PunishmentBootstrap.getInstance().getJedis().hget(entry, "mutedPlayer").equalsIgnoreCase(UUIDFetcher.getUUID(lookupPlayer.getName()))) {
-                            final String punStart = PunishmentBootstrap.getInstance().getJedis().hget(entry, "muteStart");
 
                             final String banStartDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banStart"))));
 
@@ -74,11 +78,17 @@ public class CommandLookup extends Command {
                                 banEndDate = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(new java.util.Date(Long.valueOf(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banEnd"))));
                             }
 
-                            final String banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banExecutor"));
+                            final String banExecutor;
+
+                            if(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banExecutor").startsWith("Webinterface")) {
+                                banExecutor = PunishmentBootstrap.getInstance().getJedis().hget(entry, "banExecutor");
+                            } else {
+                                banExecutor = UUIDFetcher.getName(PunishmentBootstrap.getInstance().getJedis().hget(entry, "banExecutor"));
+                            }
 
                             final String reason = PunishmentBootstrap.getInstance().getJedis().hget(entry, "banReason");
 
-                            commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» " + reason + " -> §c" + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
+                            commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» " + reason + " -> §c " + banStartDate + " §7- §c" + banEndDate + " §7von §c" + banExecutor));
                         }
 
                     }

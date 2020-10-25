@@ -3,8 +3,10 @@ package de.alex0219.punishment.commands;
 import de.alex0219.punishment.PunishmentBootstrap;
 import de.alex0219.punishment.ban.Punishment;
 import de.alex0219.punishment.ban.reason.PunishmentReason;
+import de.alex0219.punishment.ban.types.PunishmentType;
 import de.alex0219.punishment.user.DBUser;
 import de.alex0219.punishment.uuid.UUIDFetcher;
+import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -26,8 +28,13 @@ public class CommandBan extends Command {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                     return;
                 }
-                final DBUser executor = new DBUser(UUIDFetcher.getUUID(commandSender.getName()), commandSender.getName());
-                final DBUser bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                final DBUser executor = PunishmentBootstrap.getInstance().getRankManager().getDBUser(commandSender.getName());
+                DBUser bannedPlayer;
+                if(BungeeCord.getInstance().getPlayer(args[0]) !=null) {
+                    bannedPlayer = PunishmentBootstrap.getInstance().getRankManager().getDBUser(args[0]);
+                } else {
+                   bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                }
 
                 if (!bannedPlayer.userExists()) {
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Ban für einen §cnicht-existenten §cSpieler erstellt werden."));
@@ -37,6 +44,12 @@ public class CommandBan extends Command {
                 final PunishmentReason punishmentReason = PunishmentReason.getPunishmentReasonByName(reason);
 
                 if (punishmentReason == null) {
+                    String availableBanReasons = PunishmentReason.getAllBanReasons().toString();
+                    availableBanReasons = availableBanReasons.replace("[", "").replace("]", "");
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cBitte gebe einen Grund aus dieser Liste an: §a" + availableBanReasons));
+                    return;
+                }
+                if(punishmentReason.getPunishmentType() != PunishmentType.BAN) {
                     String availableBanReasons = PunishmentReason.getAllBanReasons().toString();
                     availableBanReasons = availableBanReasons.replace("[", "").replace("]", "");
                     commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cBitte gebe einen Grund aus dieser Liste an: §a" + availableBanReasons));
