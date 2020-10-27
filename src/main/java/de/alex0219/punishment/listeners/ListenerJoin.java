@@ -13,6 +13,19 @@ import net.md_5.bungee.event.EventHandler;
 public class ListenerJoin implements Listener {
 
     @EventHandler
+    public void onLogin(LoginEvent loginEvent) {
+        final String strippedIP = loginEvent.getConnection().getAddress().getAddress().toString().replace("/","");
+
+
+        if(PunishmentBootstrap.getInstance().getJedis().exists("ipban:"+strippedIP)) {
+            String ipbanReason = PunishmentBootstrap.getInstance().getJedis().hget("ipban:"+strippedIP,"reason");
+            String ipbanMessage = "§bMC-Survival.de §7» Deine IP-Adresse wurde gesperrt. \n" + "Grund: §c" + ipbanReason  + " \n §7Dies ist eine finale Entscheidung.";
+            loginEvent.setCancelled(true);
+            loginEvent.setCancelReason(ipbanMessage);
+        }
+    }
+
+    @EventHandler
     public void onPlayerLogin(final PostLoginEvent loginEvent) {
         long millisNow = System.currentTimeMillis();
         final ProxiedPlayer player = loginEvent.getPlayer();
@@ -28,7 +41,6 @@ public class ListenerJoin implements Listener {
             //update player name in case player has changed his name
             PunishmentBootstrap.getInstance().getJedis().hset("uuid:" + dbUser.getUuid(), "name", dbUser.getName());
         }
-
         if(PunishmentBootstrap.getInstance().getJedis().exists("uuid:")) {
             PunishmentBootstrap.getInstance().getJedis().del("uuid:");
         }
