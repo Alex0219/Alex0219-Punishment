@@ -19,6 +19,8 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class PunishmentBootstrap extends Plugin {
@@ -32,7 +34,9 @@ public class PunishmentBootstrap extends Plugin {
     public ArrayList<ProxiedPlayer> msgSpy = new ArrayList<>();
     HashMap<ProxiedPlayer, ProxiedPlayer> msgs = new HashMap<>();
     TelegramUtils telegramUtils;
+    ExecutorService service = Executors.newFixedThreadPool(1);
     RestServer restServer;
+    public String motd = "";
 
     public static PunishmentBootstrap getInstance() {
         return instance;
@@ -73,12 +77,14 @@ public class PunishmentBootstrap extends Plugin {
         restServer.start();
 
 
+
         BungeeCord.getInstance().getScheduler().schedule(this, new Runnable() {
             @Override
             public void run() {
 
+
                 BungeeCord.getInstance().getPlayers().forEach(players -> {
-                    players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/Jye3Cut"));
+                    players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/pyRj7FBcyN"));
                 });
 
                 try {
@@ -130,6 +136,10 @@ public class PunishmentBootstrap extends Plugin {
         jedis.disconnect();
     }
 
+    @Override
+    public ExecutorService getExecutorService() {
+        return super.getExecutorService();
+    }
 
     public Jedis getJedis() {
         return jedis;

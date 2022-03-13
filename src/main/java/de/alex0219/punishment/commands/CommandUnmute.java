@@ -18,43 +18,45 @@ public class CommandUnmute extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] args) {
-
-        if (commandSender.hasPermission("punish.unmute")) {
-            if (args.length == 1) {
-                if (!(commandSender instanceof ProxiedPlayer)) {
-                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
-                    return;
-                }
-
-                final DBUser executor = PunishmentBootstrap.getInstance().getRankManager().getDBUser(commandSender.getName());
-                DBUser bannedPlayer;
-                if(BungeeCord.getInstance().getPlayer(args[0]) !=null) {
-                    bannedPlayer = PunishmentBootstrap.getInstance().getRankManager().getDBUser(args[0]);
-                } else {
-                    bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
-                }
-
-
-                if (!bannedPlayer.userExists()) {
-                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Unmute für einen §cnicht-existenten Spieler erstellt werden."));
-                    return;
-                }
-                if (PunishmentBootstrap.getInstance().getRankManager().isPermittedToBan(executor, bannedPlayer)) {
-                    if (!PunishmentBootstrap.getInstance().getBanManager().isMuted(bannedPlayer)) {
-                        commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Spieler ist nicht gemutet."));
+        PunishmentBootstrap.getInstance().getExecutorService().execute(() -> {
+            if (commandSender.hasPermission("punish.unmute")) {
+                if (args.length == 1) {
+                    if (!(commandSender instanceof ProxiedPlayer)) {
+                        commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Befehl kann nicht von der Konsole ausgeführt werden."));
                         return;
                     }
-                    PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(bannedPlayer,commandSender.getName());
-                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Der Spieler §a" + bannedPlayer.getName() + " §7wurde erfolgreich entmutet."));
+
+                    final DBUser executor = PunishmentBootstrap.getInstance().getRankManager().getDBUser(commandSender.getName());
+                    DBUser bannedPlayer;
+                    if(BungeeCord.getInstance().getPlayer(args[0]) !=null) {
+                        bannedPlayer = PunishmentBootstrap.getInstance().getRankManager().getDBUser(args[0]);
+                    } else {
+                        bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
+                    }
+
+
+                    if (!bannedPlayer.userExists()) {
+                        commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Unmute für einen §cnicht existenten Spieler erstellt werden."));
+                        return;
+                    }
+                    if (PunishmentBootstrap.getInstance().getRankManager().isPermittedToBan(executor, bannedPlayer)) {
+                        if (!PunishmentBootstrap.getInstance().getBanManager().isMuted(bannedPlayer)) {
+                            commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDieser Spieler ist nicht gemutet."));
+                            return;
+                        }
+                        PunishmentBootstrap.getInstance().getBanManager().unmutePlayer(bannedPlayer,commandSender.getName());
+                        commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Der Spieler §a" + bannedPlayer.getName() + " §7wurde erfolgreich entmutet."));
+                    } else {
+                        commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDu darfst diesen Spieler nicht entmuten!"));
+                        return;
+                    }
                 } else {
-                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cDu darfst diesen Spieler nicht entmuten!"));
-                    return;
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Bitte verwende /unmute <Spieler>"));
                 }
             } else {
-                commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» Bitte verwende /unmute <Spieler>"));
+                commandSender.sendMessage(new TextComponent("§cYou do not have permission to execute this command!"));
             }
-        } else {
-            commandSender.sendMessage(new TextComponent("§cYou do not have permission to execute this command!"));
-        }
+        });
+
     }
 }

@@ -31,7 +31,7 @@ public class CommandMute extends Command {
                 final DBUser bannedPlayer = new DBUser(UUIDFetcher.getUUID(args[0]), args[0]);
 
                 if (!bannedPlayer.userExists()) {
-                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Mute für einen §cnicht-existenten §cSpieler erstellt werden."));
+                    commandSender.sendMessage(new TextComponent("§bMC-Survival.de §7» §cEs kann kein Mute für einen §cnicht existenten §cSpieler erstellt werden."));
                     return;
                 }
                 final String reason = args[1];

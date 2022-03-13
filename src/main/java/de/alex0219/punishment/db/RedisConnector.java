@@ -3,12 +3,14 @@ package de.alex0219.punishment.db;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.ShardedJedisPipeline;
 
 import java.time.Duration;
 
 public class RedisConnector {
 
     public JedisPool jedisPool;
+    public ShardedJedisPipeline pipeline;
 
     public RedisConnector() {
         buildPoolConfig();

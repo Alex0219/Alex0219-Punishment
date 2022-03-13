@@ -57,10 +57,10 @@ public class ListenerJoin implements Listener {
             }
 
             if (punishmentEndTime == -1) {
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 player.disconnect(banMessage);
             } else {
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + reason + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 player.disconnect(banMessage);
             }
 
@@ -86,9 +86,9 @@ public class ListenerJoin implements Listener {
             PunishmentBootstrap.getInstance().getMsgs().remove(event.getPlayer());
         }
         BungeeCord.getInstance().getPlayers().forEach(players -> {
-            players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/Jye3Cut"));
+            players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/pyRj7FBcyN"));
         });
-        event.getPlayer().setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/Jye3Cut"));
+        event.getPlayer().setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/pyRj7FBcyN"));
 
     }
 
@@ -98,7 +98,7 @@ public class ListenerJoin implements Listener {
             PunishmentBootstrap.getInstance().getMsgs().remove(event.getPlayer());
         }
         BungeeCord.getInstance().getPlayers().forEach(players -> {
-            players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/Jye3Cut"));
+            players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/pyRj7FBcyN"));
         });
     }
     @EventHandler
@@ -107,7 +107,7 @@ public class ListenerJoin implements Listener {
             PunishmentBootstrap.getInstance().getMsgs().remove(event.getPlayer());
         }
         BungeeCord.getInstance().getPlayers().forEach(players -> {
-            players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/Jye3Cut"));
+            players.setTabHeader(new TextComponent("§7» §bMC-Survival.de §7« \n §7Dein Classic Minecraft Survival Server \nSpieler online: §c"+ BungeeCord.getInstance().getPlayers().size()+"/"+BungeeCord.getInstance().getConfig().getPlayerLimit()), new TextComponent("§7Du möchtest uns unterstützen? §e/vote \n§7Unser Discord: §cdiscord.gg/pyRj7FBcyN"));
         });
     }
 }

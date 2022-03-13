@@ -38,11 +38,11 @@ public class BanManager {
             //MM/dd/yyyy HH:mm:ss
 
             if (punishmentEndTime == -1) {
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 bannedPlayer.getPlayer().disconnect(banMessage);
             } else {
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 bannedPlayer.getPlayer().disconnect(banMessage);
             }
         }
@@ -96,11 +96,11 @@ public class BanManager {
             //MM/dd/yyyy HH:mm:ss
 
             if (punishmentEndTime == -1) {
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 bannedPlayer.getPlayer().disconnect(banMessage);
             } else {
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishment.getReason().getName() + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 bannedPlayer.getPlayer().disconnect(banMessage);
             }
         }
@@ -152,12 +152,12 @@ public class BanManager {
             //MM/dd/yyyy HH:mm:ss
 
             if (punishmentEndTime == -1) {
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Bann läuft §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 bannedPlayer.getPlayer().disconnect(banMessage);
             } else {
                 final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
-                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entbannungsantrag stellen.";
+                String banMessage = "§bMC-Survival.de §7» Du wurdest gebannt. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Bann läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entbannungsantrag stellen.";
                 bannedPlayer.getPlayer().disconnect(banMessage);
             }
         }
@@ -212,12 +212,12 @@ public class BanManager {
 
 
             if (punishmentEndTime == -1) {
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entmutungsantrag stellen.";
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entmutungsantrag stellen.";
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             } else {
                 final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entmutungsantrag stellen.";
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entmutungsantrag stellen.";
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             }
         }
@@ -266,12 +266,12 @@ public class BanManager {
 
 
             if (punishmentEndTime == -1) {
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entmutungsantrag stellen.";
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entmutungsantrag stellen.";
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             } else {
                 final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entmutungsantrag stellen.";
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason.getName() + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entmutungsantrag stellen.";
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             }
         }
@@ -316,12 +316,12 @@ public class BanManager {
 
 
             if (punishmentEndTime == -1) {
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Mute läuft am §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entmutungsantrag stellen.";
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Mute läuft am §4niemals §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entmutungsantrag stellen.";
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             } else {
                 final String endDate = new java.text.SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date(punishmentEndTime));
                 final String endTime = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(punishmentEndTime));
-                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/Jye3Cut §7einen Entmutungsantrag stellen.";
+                String banMessage = "§7Du wurdest gemutet. \n" + "Grund: §c" + punishmentReason + " \n §7Dein Mute läuft am §a" + endDate + " §7um §a" + endTime + " §7aus. \n §7Du kannst auf unserem Discord: §cdiscord.gg/pyRj7FBcyN §7einen Entmutungsantrag stellen.";
                 bannedPlayer.getPlayer().sendMessage(banMessage);
             }
         }

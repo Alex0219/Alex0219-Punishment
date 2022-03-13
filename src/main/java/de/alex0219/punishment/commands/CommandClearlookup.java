@@ -38,8 +38,8 @@ public class CommandClearlookup extends Command {
                 }
 
                 for (final String entry : PunishmentBootstrap.getInstance().getJedis().keys("punishlookup:*")) {
-                    if(PunishmentBootstrap.getInstance().getJedis().hget(entry,"bannedPlayer") !=null) {
-                        if(PunishmentBootstrap.getInstance().getJedis().hget(entry,"bannedPlayer").equalsIgnoreCase(target.getUuid())) {
+                    if(PunishmentBootstrap.getInstance().getJedis().hget(entry,"bannedPlayer") !=null || PunishmentBootstrap.getInstance().getJedis().hget(entry,"mutedPlayer") !=null) {
+                        if(PunishmentBootstrap.getInstance().getJedis().hget(entry,"bannedPlayer").equalsIgnoreCase(target.getUuid()) || PunishmentBootstrap.getInstance().getJedis().hget(entry,"mutedPlayer").equalsIgnoreCase(target.getUuid()) ) {
                             PunishmentBootstrap.getInstance().getJedis().del(entry);
                         }
                     }

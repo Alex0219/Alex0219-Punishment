@@ -126,13 +126,15 @@ public class RestWebHandler extends SimpleChannelInboundHandler<Object> {
                     final CustomPunishmentReason customPunishmentReason = new CustomPunishmentReason(reason);
                     final CustomPunishment customPunishment = new CustomPunishment(executor,bannedPlayer,customPunishmentReason);
                     PunishmentBootstrap.getInstance().getBanManager().customBanPlayer(customPunishment,duration);
+                    sendText(ctx,"OK");
 
                 } else if (request.uri().startsWith("/control/kickuser&"))  {
                     final String[] args = request.uri().split("&");
                     final String message = args[1];
                     if(BungeeCord.getInstance().getPlayer(args[0]) !=null) {
                         if(message !=null) {
-                            BungeeCord.getInstance().getPlayer(args[0]).disconnect();
+                            BungeeCord.getInstance().getPlayer(args[0]).disconnect(message);
+                            sendText(ctx,"OK");
                         }
                     } else {
                         sendText(ctx,"ERROR");

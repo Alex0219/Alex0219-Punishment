@@ -14,7 +14,7 @@ public enum RankEnum {
     SUPERADMIN("Superadmin", 5, 4),
     ADMIN("Admin", 4, 3),
     MOD("mod", 3, 2),
-    SPENDER("Spender",2,1),
+    VIP("VIP",2,1),
     STAMMSPIELER("Stammspieler", 1, 1),
     SPIELER("Spieler", 0, 1);
 
